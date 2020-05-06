@@ -93,3 +93,15 @@ body {
 .card__time {
   color: #a0a0a0;
 }
+
+.board__btn {
+  padding: 10px 30px;
+  border: 1px solid #c2dffb;
+  border-radius: 5px;
+  color: black;
+  font-size: 16px;
+  background: white;
+  min-width: 20px;
+  text-decoration: none;
+  display: inline-block;
+}
