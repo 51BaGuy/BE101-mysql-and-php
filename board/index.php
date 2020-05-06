@@ -21,6 +21,16 @@
   </header>
   <main class="board">
       <h1 class="board__title">Comments</h1>
+      <?php
+        if (!empty($_GET['errCode'])) {
+          $code = $_GET['errCode'];
+          $msg = 'Error';
+          if ($code === '1') {
+            $msg = '資料不齊全';
+          }
+          echo '<h2 class="error">錯誤：' . $msg . '</h2>';
+        }
+      ?>
       <form class="board__new-comment-form" method="POST" action="handle_add_comment.php">
         <div class="board__nickname">
           <span>暱稱：</span>
@@ -45,9 +55,7 @@
                     <?php echo $row['created_at']; ?>
                   </span>
                 </div>
-                <p class="card__content">
-                    <?php echo $row['content']; ?>
-                </p>
+                <p class="card__content"><?php echo $row['content']; ?></p>
             </div>
           </div>
         <?php } ?>
