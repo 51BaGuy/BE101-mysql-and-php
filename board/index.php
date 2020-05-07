@@ -30,6 +30,7 @@
           <a class="board__btn" href="login.php">登入</a>
         <?php } else { ?>
           <a class="board__btn" href="logout.php">登出</a>
+          <h3>你好！<?php echo $username; ?></h3>
         <?php } ?>
       </div>
       
