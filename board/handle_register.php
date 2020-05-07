@@ -16,13 +16,10 @@
 
   $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
-  $sql = sprintf(
-    "insert into users(nickname, username, password) values('%s', '%s', '%s')",
-    $nickname,
-    $username,
-    $password
-  );
-  $result = $conn->query($sql);
+  $sql = "insert into users(nickname, username, password) values(?, ?, ?)";
+  $stmt = $conn->prepare($sql);
+  $stmt->bind_param("sss", $nickname, $username, $password);
+  $result = $stmt->execute();
   if (!$result) {
     $code = $conn->errno;
     if ($code === 1062) {

@@ -13,11 +13,12 @@
     $username = $_SESSION['username'];
   }
 
-  $result = $conn->query("select * from comments order by id desc");
+  $stmt = $conn->prepare('select * from comments order by id desc');
+  $result = $stmt->execute();
   if (!$result) {
     die('Error:' . $conn->error);
   }
-
+  $result = $stmt->get_result();
 ?>
 
 <!DOCTYPE html>

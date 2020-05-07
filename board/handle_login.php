@@ -14,15 +14,15 @@
   $username = $_POST['username'];
   $password = $_POST['password'];
 
-  $sql = sprintf(
-    "select * from users where username='%s'",
-    $username
-  );
-  $result = $conn->query($sql);
+  $sql ="select * from users where username=?";
+  $stmt = $conn->prepare($sql);
+  $stmt->bind_param("s", $username);
+  $result = $stmt->execute();
   if (!$result) {
     die($conn->error);
   }
 
+  $result = $stmt->get_result();
   if ($result->num_rows === 0) {
     header("Location: login.php?errCode=2");
     exit();

@@ -14,12 +14,10 @@
   $nickname = $user['nickname'];
 
   $content = $_POST['content'];
-  $sql = sprintf(
-    "insert into comments(nickname, content) values('%s', '%s')",
-    $nickname,
-    $content
-  );
-  $result = $conn->query($sql);
+  $sql = "insert into comments(nickname, content) values(?, ?)";
+  $stmt = $conn->prepare($sql);
+  $stmt->bind_param('ss', $nickname, $content);
+  $result = $stmt->execute();
   if (!$result) {
     die($conn->error);
   }
