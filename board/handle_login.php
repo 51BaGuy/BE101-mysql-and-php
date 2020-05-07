@@ -15,16 +15,22 @@
   $password = $_POST['password'];
 
   $sql = sprintf(
-    "select * from users where username='%s' and password='%s'",
-    $username,
-    $password
+    "select * from users where username='%s'",
+    $username
   );
   $result = $conn->query($sql);
   if (!$result) {
     die($conn->error);
   }
 
-  if ($result->num_rows) {
+  if ($result->num_rows === 0) {
+    header("Location: login.php?errCode=2");
+    exit();
+  }
+
+  // 有查到使用者
+  $row = $result->fetch_assoc();
+  if (password_verify($password, $row['password'])) {
     // 登入成功
     /*
       1. 產生 session id (token)

@@ -17,7 +17,7 @@
   if (!$result) {
     die('Error:' . $conn->error);
   }
-  
+
 ?>
 
 <!DOCTYPE html>

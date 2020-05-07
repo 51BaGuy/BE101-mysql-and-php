@@ -1,4 +1,5 @@
 <?php
+  session_start();
   require_once('conn.php');
 
   if (
@@ -12,7 +13,8 @@
 
   $nickname = $_POST['nickname'];
   $username = $_POST['username'];
-  $password = $_POST['password'];
+
+  $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
   $sql = sprintf(
     "insert into users(nickname, username, password) values('%s', '%s', '%s')",
@@ -29,5 +31,6 @@
     die($conn->error);
   }
 
+  $_SESSION['username'] = $username;
   header("Location: index.php");
 ?>
