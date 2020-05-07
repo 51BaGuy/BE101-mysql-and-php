@@ -1,11 +1,16 @@
 <?php
+  session_start();
   require_once("conn.php");
   require_once("utils.php");
 
+  /*
+    1. 從 cookie 裡面讀取 PHPSESSID(token)
+    2. 從檔案裡面讀取 session id 的內容
+    3. 放到 $_SESSION
+  */
   $username = NULL;
-  if (!empty($_COOKIE['token'])) {
-    $user = getUserFromToken($_COOKIE['token']);
-    $username = $user['username'];
+  if(!empty($_SESSION['username'])) {
+    $username = $_SESSION['username'];
   }
 
   $result = $conn->query("select * from comments order by id desc");
