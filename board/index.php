@@ -15,7 +15,14 @@
     $user = getUserFromUsername($username);
   }
 
-  $stmt = $conn->prepare('select * from comments order by id desc');
+  $stmt = $conn->prepare(
+    'select '.
+      'C.id as id, C.content as content, '.
+      'C.created_at as created_at, U.nickname as nickname, U.username as username '.
+    'from comments as C ' .
+    'left join users as U on C.username = U.username '.
+    'order by C.id desc'
+  );
   $result = $stmt->execute();
   if (!$result) {
     die('Error:' . $conn->error);
@@ -84,6 +91,7 @@
                 <div class="card__info">
                   <span class="card__author">
                     <?php echo escape($row['nickname']); ?>
+                    (@<?php echo escape($row['username']); ?>)
                   </span>
                   <span class="card__time">
                     <?php echo escape($row['created_at']); ?>
