@@ -19,4 +19,8 @@
     $row = $result->fetch_assoc();
     return $row; // username, id, nickname
   }
+
+  function escape($str) {
+    return htmlspecialchars($str, ENT_QUOTES);
+  }
 ?>
