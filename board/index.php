@@ -21,6 +21,7 @@
       'C.created_at as created_at, U.nickname as nickname, U.username as username '.
     'from comments as C ' .
     'left join users as U on C.username = U.username '.
+    'where C.is_deleted IS NULL '.
     'order by C.id desc'
   );
   $result = $stmt->execute();
@@ -98,6 +99,7 @@
                   </span>
                   <?php if ($row['username'] === $username) { ?>
                     <a href="update_comment.php?id=<?php echo $row['id'] ?>">編輯</a>
+                    <a href="delete_comment.php?id=<?php echo $row['id'] ?>">刪除</a>
                   <? } ?>
                 </div>
                 <p class="card__content"><?php echo escape($row['content']); ?></p>
