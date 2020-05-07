@@ -1,5 +1,6 @@
 <?php
   require_once('conn.php');
+  require_once('utils.php');
 
   if (
     empty($_POST['username']) ||
@@ -23,9 +24,21 @@
   }
 
   if ($result->num_rows) {
+    // 建立 token 並儲存
+    $token = generateToken();
+    $sql = sprintf(
+      "insert into tokens(token,username) values('%s', '%s')",
+      $token,
+      $username
+    );
+    $result = $conn->query($sql);
+    if (!$result) {
+      die($conn->error);
+    }
+
     // 登入成功
     $expire = time() + 3600 * 24 * 30; // 30 day
-    setcookie("username", $username, $expire);
+    setcookie("token", $token, $expire);
     header("Location: index.php");
   } else {
     header("Location: login.php?errCode=2");
