@@ -11,10 +11,11 @@
   }
 
   $id = $_GET['id'];
+  $username = $_SESSION['username'];
 
-  $sql = "update comments set is_deleted=1 where id=?";
+  $sql = "update comments set is_deleted=1 where id=? and username=?";
   $stmt = $conn->prepare($sql);
-  $stmt->bind_param('i', $id);
+  $stmt->bind_param('is', $id, $username);
   $result = $stmt->execute();
   if (!$result) {
     die($conn->error);

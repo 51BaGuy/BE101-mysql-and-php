@@ -14,9 +14,9 @@
   $id = $_POST['id'];
   $content = $_POST['content'];
 
-  $sql = "update comments set content=? where id=?";
+  $sql = "update comments set content=? where id=? and username=?";
   $stmt = $conn->prepare($sql);
-  $stmt->bind_param('si', $content, $id);
+  $stmt->bind_param('sis', $content, $id, $username);
   $result = $stmt->execute();
   if (!$result) {
     die($conn->error);
