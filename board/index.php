@@ -96,6 +96,9 @@
                   <span class="card__time">
                     <?php echo escape($row['created_at']); ?>
                   </span>
+                  <?php if ($row['username'] === $username) { ?>
+                    <a href="update_comment.php?id=<?php echo $row['id'] ?>">編輯</a>
+                  <? } ?>
                 </div>
                 <p class="card__content"><?php echo escape($row['content']); ?></p>
             </div>
