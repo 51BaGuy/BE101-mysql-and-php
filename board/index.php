@@ -5,6 +5,10 @@
   if (!$result) {
     die('Error:' . $conn->error);
   }
+  $username = NULL;
+  if (!empty($_COOKIE['username'])) {
+    $username = $_COOKIE['username'];
+  }
 ?>
 
 <!DOCTYPE html>
@@ -21,9 +25,14 @@
   </header>
   <main class="board">
       <div>
-        <a class="board__btn" href="register.php">註冊</a>
-        <a class="board__btn" href="login.php">登入</a>
+        <?php if (!$username) { ?>
+          <a class="board__btn" href="register.php">註冊</a>
+          <a class="board__btn" href="login.php">登入</a>
+        <?php } else { ?>
+          <a class="board__btn" href="logout.php">登出</a>
+        <?php } ?>
       </div>
+      
       <h1 class="board__title">Comments</h1>
       <?php
         if (!empty($_GET['errCode'])) {
@@ -35,14 +44,14 @@
           echo '<h2 class="error">錯誤：' . $msg . '</h2>';
         }
       ?>
-      <form class="board__new-comment-form" method="POST" action="handle_add_comment.php">
-        <div class="board__nickname">
-          <span>暱稱：</span>
-          <input type="text" name="nickname" />
-        </div>
-        <textarea name="content" rows="5"></textarea>
-        <input class="board__submit-btn" type="submit" />
-      </form>
+        <form class="board__new-comment-form" method="POST" action="handle_add_comment.php">
+          <textarea name="content" rows="5"></textarea>
+          <?php if ($username) { ?>
+            <input class="board__submit-btn" type="submit" />
+          <?php } else { ?>
+            <h3>請登入發布留言</h3>
+          <?php } ?>  
+        </form>
       <div class="board__hr"></div>
       <section>
         <?php
