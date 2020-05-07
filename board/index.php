@@ -9,8 +9,10 @@
     3. 放到 $_SESSION
   */
   $username = NULL;
+  $user = NULL;
   if(!empty($_SESSION['username'])) {
     $username = $_SESSION['username'];
+    $user = getUserFromUsername($username);
   }
 
   $stmt = $conn->prepare('select * from comments order by id desc');
@@ -40,7 +42,15 @@
           <a class="board__btn" href="login.php">登入</a>
         <?php } else { ?>
           <a class="board__btn" href="logout.php">登出</a>
-          <h3>你好！<?php echo $username; ?></h3>
+          <span class="board__btn update-nickname">編輯暱稱</span>
+          <form class="hide board__nickname-form board__new-comment-form" method="POST" action="update_user.php">
+            <div class="board__nickname">
+              <span>新的暱稱：</span>
+              <input type="text" name="nickname" />
+            </div>
+            <input class="board__submit-btn" type="submit" />
+          </form>
+          <h3>你好！<?php echo $user['nickname']; ?></h3>
         <?php } ?>
       </div>
       
@@ -87,5 +97,12 @@
       </section>
 
   </main>
+  <script>
+    var btn = document.querySelector('.update-nickname')
+    btn.addEventListener('click', function() {
+      var form = document.querySelector('.board__nickname-form')
+      form.classList.toggle('hide')
+    })
+  </script>
 </body>
 </html>
